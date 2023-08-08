@@ -18,8 +18,7 @@ import openai
 ##################################################################################################
 
 # gpt-3.5-turbo
-# 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
-# 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
+# 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
 
 ##################################################################################################
 
@@ -49,7 +48,7 @@ with shelve.open("datosDB") as DATA_BASE:
 ##################################################################################################
 
 
-def preguntar():
+def preguntar(event=None):
     "Devuelve la respuesta de chatGPT"
     PREGUNTAS_RESPUESTAS.append({"role": "user", "content": entrada.get()})
     respuesta = openai.ChatCompletion.create(
@@ -76,7 +75,7 @@ def reiniciar():
     entrada.insert(0, "Conversación reiniciada...")
 
 
-def crear():
+def crear(event=None):
     "Toma una descripción y crea una imagen con ella"
     global URL_IMAGEN
     response = openai.Image.create(
@@ -116,7 +115,7 @@ def guardar():
         entrada_imagen.insert(0, "Error al descargar la imagen...")
 
 
-def aplicar():
+def aplicar(event=None):
     "Aplica los cambios de configuración"
     global STR_MODELO_GPT
     global PREGUNTAS_RESPUESTAS
@@ -148,24 +147,8 @@ def change_scaling_event(new_scaling: str):
     ctk.set_widget_scaling(new_scaling_float)
 
 
-def enter_enviar(evento):
-    "Al teclear Enter ejecuta la función preguntar"
-    preguntar()
-
-
-def enter_crear(evento):
-    "Al teclear Enter ejecuta la función crear"
-    crear()
-
-
-def enter_aplicar(evento):
-    "Al teclear Enter ejecuta la función aplicar"
-    aplicar()
-
-
 ##################################################################################################
 ##################################################################################################
-
 MyTabView.add("CHAT")
 MyTabView.tab("CHAT").grid_columnconfigure(0, weight=1)
 MyTabView.tab("CHAT").grid_rowconfigure(0, weight=1)
@@ -202,7 +185,7 @@ cuadro_inferior.grid_columnconfigure(1, weight=0)
 entrada = ctk.CTkEntry(cuadro_inferior, placeholder_text_color="#A8A8A8",
                        placeholder_text="Ingrese una pregunta...")
 entrada.grid(row=0, column=0, padx=(0, 9), sticky="we")
-entrada.bind('<Return>', enter_enviar)
+entrada.bind('<Return>', preguntar)
 
 contenedor_botones = ctk.CTkFrame(cuadro_inferior, fg_color="transparent")
 contenedor_botones.grid(row=0, column=1, sticky="ew")
@@ -247,7 +230,7 @@ entrada_imagen = ctk.CTkEntry(
     frame_entrada_imagen, placeholder_text_color="#A8A8A8",
     placeholder_text="Ingrese una descripción...")
 entrada_imagen.grid(row=0, column=0, padx=(0, 9), sticky="we")
-entrada_imagen.bind('<Return>', enter_crear)
+entrada_imagen.bind('<Return>', crear)
 
 contenedor_botones_imagen = ctk.CTkFrame(
     frame_entrada_imagen, fg_color="transparent")
@@ -296,7 +279,7 @@ enlace_modelo = ctk.CTkLabel(
 enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
 MODELO_URL = "https://platform.openai.com/docs/models/"
 enlace_modelo.bind("<Button-1>", lambda e: abrir_enlace(MODELO_URL))
-entrada_modelo.bind('<Return>', enter_aplicar)
+entrada_modelo.bind('<Return>', aplicar)
 
 api = ctk.CTkFrame(frame_ajustes)
 api.grid(row=1, column=0, pady=(7, 0), sticky="new")
@@ -312,7 +295,7 @@ enlace_api = ctk.CTkLabel(
 enlace_api.grid(row=0, column=0, padx=5, sticky="e")
 API_URL = "https://platform.openai.com/account/api-keys"
 enlace_api.bind("<Button-1>", lambda e: abrir_enlace(API_URL))
-entrada_key.bind('<Return>', enter_aplicar)
+entrada_key.bind('<Return>', aplicar)
 
 contexto = ctk.CTkFrame(frame_ajustes)
 contexto.grid(row=2, column=0, pady=(7, 0), sticky="new")
@@ -330,7 +313,7 @@ enlace_contexto = ctk.CTkLabel(
 enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
 CONTEXTO_URL = "https://platform.openai.com/docs/guides/chat/introduction"
 enlace_contexto.bind("<Button-1>", lambda e: abrir_enlace(CONTEXTO_URL))
-entrada_contexto.bind('<Return>', enter_aplicar)
+entrada_contexto.bind('<Return>', aplicar)
 
 frame_ajustes_inf = ctk.CTkFrame(
     MyTabView.tab("AJUSTES"), fg_color="transparent")
