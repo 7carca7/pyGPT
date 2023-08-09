@@ -18,11 +18,11 @@ class Config:
         self.modelo = valor_modelo
         self.contexto = valor_contexto
 
-        if self.key != None:
+        if self.key != "" or self.key is None:
             self.db.ingresar_data("key", self.key)
-        if self.modelo != None:
+        if self.modelo != "" or self.modelo is None:
             self.db.ingresar_data("modelo", self.modelo)
-        if self.contexto != None:
+        if self.contexto != "" or self.contexto is None:
             self.db.ingresar_data("contexto", self.contexto)
 
     def abrir_enlace(self, url):

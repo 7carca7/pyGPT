@@ -15,7 +15,7 @@ from settings import Config
 db = Database()
 ia = OpenAI()
 conf = Config()
-#openai.api_key = "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"
+# openai.api_key = "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"
 
 ##################################################################################################
 
@@ -339,7 +339,7 @@ opcion_esc = ctk.CTkOptionMenu(frame_ajustes_inf, values=["100%", "125%", "150%"
 opcion_esc.grid(row=1, column=0, sticky="w")
 
 boton_aplicar = ctk.CTkButton(
-    frame_ajustes_inf, text="Aplicar", command=lambda: conf.aplicar(entrada_key.get(),entrada_modelo.get(), entrada_contexto.get()))
+    frame_ajustes_inf, text="Aplicar", command=lambda: conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 boton_aplicar.grid(row=1, column=1, sticky="ew")
 boton_aplicar.configure(width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 

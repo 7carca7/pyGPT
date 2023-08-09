@@ -27,7 +27,7 @@ class OpenAI:
         self.db = Database()
         self.openai_key, self.db_modelo, self.db_contexto = self.db.obtener_data()
         openai.api_key = self.openai_key
-        if self.db_contexto is None:
+        if self.db_contexto != "" or self.db_contexto is None:
             self.db_contexto = [
                 {"role": "system", "content": "Eres un asistente virtual útil"}]
 
@@ -37,6 +37,9 @@ class OpenAI:
             model=self.db_modelo, messages=self.db_contexto)
         respuesta = respuesta.choices[0].message.content
         self.db_contexto.append({"role": "assistant", "content": respuesta})
+        print(self.db_contexto)
+        print(respuesta)
+        
         return respuesta
 
     def crear_imagen(self, user_entry):
@@ -52,8 +55,8 @@ class OpenAI:
         with open(ruta_guardado, "wb") as archivo:
             archivo.write(response.content)
 
-#por hacer:
-#aqui el contexto debe ser el que le ingreso el usuario a la BD y si no hay ninguno tomar este
+# por hacer:
+# aqui el contexto debe ser el que le ingreso el usuario a la BD y si no hay ninguno tomar este
     def reiniciar(self):
         self.db_contexto = [
             {"role": "system", "content": "Eres un asistente virtual útil"}]
