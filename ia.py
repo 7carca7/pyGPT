@@ -52,6 +52,8 @@ class OpenAI:
         with open(ruta_guardado, "wb") as archivo:
             archivo.write(response.content)
 
+#por hacer:
+#aqui el contexto debe ser el que le ingreso el usuario a la BD y si no hay ninguno tomar este
     def reiniciar(self):
         self.db_contexto = [
             {"role": "system", "content": "Eres un asistente virtual útil"}]
