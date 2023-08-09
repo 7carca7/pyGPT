@@ -9,6 +9,13 @@ from PIL import Image
 import requests
 import customtkinter as ctk
 import openai
+from ia import OpenAI, Database
+from settings import Config
+
+db = Database()
+ia = OpenAI()
+conf = Config()
+openai.api_key = "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"
 
 ##################################################################################################
 
@@ -36,7 +43,7 @@ MyTabView.configure(fg_color="transparent", segmented_button_selected_color="#1E
 
 ##################################################################################################
 
-URL_IMAGEN = ""
+""" URL_IMAGEN = ""
 PREGUNTAS_RESPUESTAS = [
     {"role": "system", "content": "Eres un asistente virtual útil"}]
 with shelve.open("datosDB") as DATA_BASE:
@@ -144,7 +151,7 @@ def abrir_enlace(url):
 def change_scaling_event(new_scaling: str):
     "Cambia la escala de la UI"
     new_scaling_float = int(new_scaling.replace("%", "")) / 100
-    ctk.set_widget_scaling(new_scaling_float)
+    ctk.set_widget_scaling(new_scaling_float) """
 
 
 ##################################################################################################
@@ -185,18 +192,18 @@ cuadro_inferior.grid_columnconfigure(1, weight=0)
 entrada = ctk.CTkEntry(cuadro_inferior, placeholder_text_color="#A8A8A8",
                        placeholder_text="Ingrese una pregunta...")
 entrada.grid(row=0, column=0, padx=(0, 9), sticky="we")
-entrada.bind('<Return>', preguntar)
+entrada.bind('<Return>', ia.preguntar(entrada.get()))
 
 contenedor_botones = ctk.CTkFrame(cuadro_inferior, fg_color="transparent")
 contenedor_botones.grid(row=0, column=1, sticky="ew")
 
 boton_enviar = ctk.CTkButton(
-    contenedor_botones, text="Enviar", command=preguntar)
+    contenedor_botones, text="Enviar", command=ia.preguntar(entrada.get()))
 boton_enviar.grid(row=0, column=0, sticky="ew")
 boton_enviar.configure(width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
 boton_reiniciar = ctk.CTkButton(
-    contenedor_botones, text="\u267A", font=("", 16), command=reiniciar)
+    contenedor_botones, text="\u267A", font=("", 16), command=ia.reiniciar)
 boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
 boton_reiniciar.configure(width=35, fg_color="#F28A30", hover_color="#CE7529")
 
@@ -230,20 +237,20 @@ entrada_imagen = ctk.CTkEntry(
     frame_entrada_imagen, placeholder_text_color="#A8A8A8",
     placeholder_text="Ingrese una descripción...")
 entrada_imagen.grid(row=0, column=0, padx=(0, 9), sticky="we")
-entrada_imagen.bind('<Return>', crear)
+entrada_imagen.bind('<Return>', ia.crear_imagen)
 
 contenedor_botones_imagen = ctk.CTkFrame(
     frame_entrada_imagen, fg_color="transparent")
 contenedor_botones_imagen.grid(row=0, column=1, sticky="ew")
 
 boton_entrada_imagen = ctk.CTkButton(
-    contenedor_botones_imagen, text="Crear", command=crear)
+    contenedor_botones_imagen, text="Crear", command=ia.crear_imagen)
 boton_entrada_imagen.grid(row=0, column=0, sticky="ew")
 boton_entrada_imagen.configure(
     width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
 boton_descargar_imagen = ctk.CTkButton(
-    contenedor_botones_imagen, text="\u2B07", command=guardar)
+    contenedor_botones_imagen, text="\u2B07", command=ia.guardar)
 boton_descargar_imagen.grid(row=0, column=1, padx=(10, 0), sticky="ew")
 boton_descargar_imagen.configure(
     width=35, fg_color="#009E54", hover_color="#008D47")
@@ -272,14 +279,14 @@ ev_label = ctk.CTkLabel(
 ev_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
 entrada_modelo = ctk.CTkEntry(
     gpt_modelo, placeholder_text_color="#A8A8A8",
-    placeholder_text=STR_MODELO_GPT)
+    placeholder_text=db.obtener_data()[1])
 entrada_modelo.grid(row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
 enlace_modelo = ctk.CTkLabel(
     gpt_modelo, text="\u24D8 Modelos disponibles", text_color="#1E90FF", cursor="pointinghand")
 enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
-MODELO_URL = "https://platform.openai.com/docs/models/"
-enlace_modelo.bind("<Button-1>", lambda e: abrir_enlace(MODELO_URL))
-entrada_modelo.bind('<Return>', aplicar)
+enlace_modelo.bind(
+    "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/docs/models/"))
+entrada_modelo.bind('<Return>', conf.aplicar)
 
 api = ctk.CTkFrame(frame_ajustes)
 api.grid(row=1, column=0, pady=(7, 0), sticky="new")
@@ -293,9 +300,9 @@ entrada_key.grid(row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
 enlace_api = ctk.CTkLabel(
     api, text="\u24D8 Obtener una API", text_color="#1E90FF", cursor="pointinghand")
 enlace_api.grid(row=0, column=0, padx=5, sticky="e")
-API_URL = "https://platform.openai.com/account/api-keys"
-enlace_api.bind("<Button-1>", lambda e: abrir_enlace(API_URL))
-entrada_key.bind('<Return>', aplicar)
+enlace_api.bind(
+    "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
+entrada_key.bind('<Return>', conf.aplicar)
 
 contexto = ctk.CTkFrame(frame_ajustes)
 contexto.grid(row=2, column=0, pady=(7, 0), sticky="new")
@@ -305,15 +312,15 @@ ec_label = ctk.CTkLabel(
     contexto, text="GPT Contexto", text_color="#A8A8A8", font=("", 17))
 ec_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
 entrada_contexto = ctk.CTkEntry(
-    contexto, placeholder_text_color="#A8A8A8", placeholder_text=PREGUNTAS_RESPUESTAS[0]["content"])
+    contexto, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[2])  # PREGUNTAS_RESPUESTAS[0]["content"]
 entrada_contexto.grid(
     row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
 enlace_contexto = ctk.CTkLabel(
     contexto, text="\u24D8 Acerca de los contextos", text_color="#1E90FF", cursor="pointinghand")
 enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
-CONTEXTO_URL = "https://platform.openai.com/docs/guides/chat/introduction"
-enlace_contexto.bind("<Button-1>", lambda e: abrir_enlace(CONTEXTO_URL))
-entrada_contexto.bind('<Return>', aplicar)
+enlace_contexto.bind("<Button-1>", lambda e: conf.abrir_enlace(
+    "https://platform.openai.com/docs/guides/chat/introduction"))
+entrada_contexto.bind('<Return>', conf.aplicar)
 
 frame_ajustes_inf = ctk.CTkFrame(
     MyTabView.tab("AJUSTES"), fg_color="transparent")
@@ -328,11 +335,11 @@ esc_label.grid(row=0, column=0, pady=(0, 5), sticky="w")
 opcion_esc = ctk.CTkOptionMenu(frame_ajustes_inf, values=["100%", "125%", "150%"],
                                fg_color="#1E90FF", button_color="#1E90FF",
                                button_hover_color="#1A7AD9", width=145,
-                               command=change_scaling_event)
+                               command=conf.change_scaling_event)
 opcion_esc.grid(row=1, column=0, sticky="w")
 
 boton_aplicar = ctk.CTkButton(
-    frame_ajustes_inf, text="Aplicar", command=aplicar)
+    frame_ajustes_inf, text="Aplicar", command=conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 boton_aplicar.grid(row=1, column=1, sticky="ew")
 boton_aplicar.configure(width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
