@@ -15,6 +15,7 @@ from settings import Config
 db = Database()
 ia = OpenAI()
 conf = Config()
+URL_IMAGEN = ""
 # openai.api_key = "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"
 
 ##################################################################################################
@@ -200,13 +201,13 @@ contenedor_botones = ctk.CTkFrame(cuadro_inferior, fg_color="transparent")
 contenedor_botones.grid(row=0, column=1, sticky="ew")
 
 boton_enviar = ctk.CTkButton(
-    contenedor_botones, text="Enviar", command=lambda: enviar(entrada.get()))
+    contenedor_botones, text="Enviar", command=lambda: enviar())
 boton_enviar.grid(row=0, column=0, sticky="ew")
 boton_enviar.configure(width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
 
-def enviar(pregunta):
-    respuesta = ia.preguntar(pregunta)
+def enviar():
+    respuesta = ia.preguntar(entrada.get())
     # respuesta_final.set(respuesta)
     salida.configure(state="normal")
     salida.delete(0.0, ctk.END)
@@ -267,13 +268,27 @@ contenedor_botones_imagen = ctk.CTkFrame(
 contenedor_botones_imagen.grid(row=0, column=1, sticky="ew")
 
 boton_entrada_imagen = ctk.CTkButton(
-    contenedor_botones_imagen, text="Crear", command=ia.crear_imagen)
+    contenedor_botones_imagen, text="Crear", command=lambda: crear())
 boton_entrada_imagen.grid(row=0, column=0, sticky="ew")
 boton_entrada_imagen.configure(
     width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
+
+def crear():
+    imagen_url = ia.crear_imagen(entrada_imagen.get())
+    with urllib.request.urlopen(imagen_url) as url_datos:
+        raw_data = url_datos.read()
+    imagen_crear = Image.open(io.BytesIO(raw_data))
+    photo = ctk.CTkImage(imagen_crear, size=(470, 405))
+    label_imagen = ctk.CTkLabel(frame_salida_imagen, image=photo, text="")
+    label_imagen.grid(row=0, column=0, sticky="nswe")
+    #URL_IMAGEN = imagen_url
+    entrada_imagen.delete("0", "end")
+    entrada_imagen.insert(0, imagen_url)
+
+
 boton_descargar_imagen = ctk.CTkButton(
-    contenedor_botones_imagen, text="\u2B07", command=ia.guardar)
+    contenedor_botones_imagen, text="\u2B07", command=lambda: ia.guardar(entrada_imagen.get()))
 boton_descargar_imagen.grid(row=0, column=1, padx=(10, 0), sticky="ew")
 boton_descargar_imagen.configure(
     width=35, fg_color="#009E54", hover_color="#008D47")

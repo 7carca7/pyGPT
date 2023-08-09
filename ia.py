@@ -48,8 +48,8 @@ class OpenAI:
         imagen_url = response['data'][0]['url']
         return imagen_url
 
-    def guardar(self):
-        imagen_url = self.crear_imagen()
+    def guardar(self,url):
+        imagen_url = url
         response = requests.get(imagen_url, timeout=10)
         ruta_guardado = asksaveasfilename(defaultextension=".png")
         with open(ruta_guardado, "wb") as archivo:
