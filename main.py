@@ -173,7 +173,9 @@ cuadro_superior.grid(padx=0, pady=(0, 12), sticky="nswe")
 cuadro_superior.grid_rowconfigure(0, weight=1)
 cuadro_superior.grid_columnconfigure(0, weight=1)
 
-respuesta_final = ctk.StringVar()
+# respuesta_final = ctk.StringVar()
+
+
 salida = ctk.CTkTextbox(
     cuadro_superior, fg_color="transparent", scrollbar_button_color="#A8A8A8",
     scrollbar_button_hover_color="#A8A8A8")
@@ -198,17 +200,38 @@ contenedor_botones = ctk.CTkFrame(cuadro_inferior, fg_color="transparent")
 contenedor_botones.grid(row=0, column=1, sticky="ew")
 
 boton_enviar = ctk.CTkButton(
-    contenedor_botones, text="Enviar", command=lambda: ia.preguntar(entrada.get()))
+    contenedor_botones, text="Enviar", command=lambda: enviar(entrada.get()))
 boton_enviar.grid(row=0, column=0, sticky="ew")
 boton_enviar.configure(width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
+
+def enviar(pregunta):
+    respuesta = ia.preguntar(pregunta)
+    # respuesta_final.set(respuesta)
+    salida.configure(state="normal")
+    salida.delete(0.0, ctk.END)
+    salida.insert("0.0", respuesta)
+    salida.configure(state="disabled")
+    entrada.delete("0", "end")
+
+
 boton_reiniciar = ctk.CTkButton(
-    contenedor_botones, text="\u267A", font=("", 16), command=ia.reiniciar)
+    contenedor_botones, text="\u267A", font=("", 16), command=lambda: reiniciar())
 boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
 boton_reiniciar.configure(width=35, fg_color="#F28A30", hover_color="#CE7529")
 
+
+def reiniciar():
+    ia.reiniciar()
+    salida.configure(state='normal')
+    salida.delete(0.0, ctk.END)
+    salida.configure(state='disabled')
+    entrada.delete("0", "end")
+    entrada.insert(0, "Conversación reiniciada...")
+
 ##################################################################################################
 ##################################################################################################
+
 
 MyTabView.add("IMAGEN")
 MyTabView.tab("IMAGEN").grid_columnconfigure(0, weight=1)

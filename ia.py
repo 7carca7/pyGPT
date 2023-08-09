@@ -39,7 +39,7 @@ class OpenAI:
         self.db_contexto.append({"role": "assistant", "content": respuesta})
         print(self.db_contexto)
         print(respuesta)
-        
+
         return respuesta
 
     def crear_imagen(self, user_entry):
