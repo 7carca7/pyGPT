@@ -66,7 +66,7 @@ db.ingresar_data(lugar="modelo", data="gpt-3.5-turbo")
 db.ingresar_data(lugar="contexto",data=[{"role": "system", "content": "Eres muy gracioso"}])
 db.close() """
 
-ia = OpenAI()
+""" ia = OpenAI()
 print(ia.openai_key)
 print(ia.db_modelo)
 print(ia.db_contexto)
@@ -74,4 +74,4 @@ print(ia.db_contexto)
 while True:
     user_input = input("User: ")
     response = ia.preguntar(user_input)
-    print("Assistant:", response)
+    print("Assistant:", response) """

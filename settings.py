@@ -8,10 +8,22 @@ class Config:
     def __init__(self):
         self.db = Database()
 
-    def aplicar(self,key,modelo,contexto):
-        "Aplica los cambios de configuración"
+    # def aplicar(self, lugar, data):
+    #    "Aplica los cambios de configuración"
+    #
+    #    self.db.ingresar_data(lugar, data)
 
-        self.db.ingresar_data(key,modelo,contexto)
+    def aplicar(self, valor_key, valor_modelo, valor_contexto):
+        self.key = valor_key
+        self.modelo = valor_modelo
+        self.contexto = valor_contexto
+
+        if self.key != None:
+            self.db.ingresar_data("key", self.key)
+        if self.modelo != None:
+            self.db.ingresar_data("modelo", self.modelo)
+        if self.contexto != None:
+            self.db.ingresar_data("contexto", self.contexto)
 
     def abrir_enlace(self, url):
         "Abre los enlaces de ayuda"
@@ -23,3 +35,10 @@ class Config:
 
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         ctk.set_widget_scaling(new_scaling_float)
+
+        # key = entrada_key.get()
+        # modelo = entrada_modelo.get()
+        # contexto = entrada_contexto.get()
+
+        # if key and modelo and contexto:
+        #    conf.aplicar(key, modelo, contexto)
