@@ -7,7 +7,7 @@ import customtkinter as ctk
 class Config:
     def __init__(self):
         self.db = Database()
-        self.ia = OpenAI()
+        # self.ia = OpenAI()
 
     # def aplicar(self, lugar, data):
     #    "Aplica los cambios de configuración"
@@ -34,6 +34,7 @@ class Config:
             print(self.contexto, type(self.contexto))
 
         self.db.close()
+        #OpenAI.reinicializar(self)
 
     def abrir_enlace(self, url):
         "Abre los enlaces de ayuda"
