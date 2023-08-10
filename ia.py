@@ -9,6 +9,7 @@ class Database:
         self.conn = shelve.open("iaDB")
 
     def obtener_data(self):
+        "Obtiene y devuelve los valores alojados en la DB"
         self.__init__()
         key = self.conn.get("key")
         modelo = self.conn.get("modelo")
@@ -18,15 +19,16 @@ class Database:
         contexto = self.conn.get("contexto")
         url = self.conn.get("url")
         self.close()
-
         return key, modelo, contexto, url
 
     def ingresar_data(self, lugar, data):
+        "Ingresa información a la DB con el esquema Lugar-Data"
         self.__init__()
         self.conn[lugar] = data
         self.close()
 
     def close(self):
+        "Cierra la DB"
         self.conn.close()
 
 
@@ -36,30 +38,19 @@ class OpenAI:
         self.db.__init__()
         self.openai_key, self.db_modelo, self.db_contexto, self.url = self.db.obtener_data()
         openai.api_key = self.openai_key
-        # if self.db_contexto == "" or self.db_contexto is None:
-        #    self.db_contexto = [
-        #        {"role": "system", "content": "Eres un asistente virtual útil"}]
-
         self.db.close()
 
     def preguntar(self, user_entry):
-        print(self.openai_key)
-        print(self.db_modelo)
-        print(self.db_contexto)
+        "A partir de la pregunta del usuario devuelve una respuesta y la agrega a un contexto"
         self.db_contexto.append({"role": "user", "content": user_entry})
         respuesta = openai.ChatCompletion.create(
             model=self.db_modelo, messages=self.db_contexto)
         respuesta = respuesta.choices[0].message.content
         self.db_contexto.append({"role": "assistant", "content": respuesta})
-        # print(self.db_contexto)
-        # self.db.__init__()
-        # print(self.db.obtener_data()[2])
-        # self.db.close()
-        # print(respuesta)
-
         return respuesta
 
     def crear_imagen(self, user_entry):
+        "Crea una imagen a partir de una descripción del usuario"
         self.db.__init__()
         response = openai.Image.create(
             prompt=user_entry, n=1, size="1024x1024")
@@ -69,7 +60,7 @@ class OpenAI:
         return imagen_url
 
     def guardar(self):
-        # imagen_url = self.url
+        "Guarda la imagen generada en el sistema"
         self.db.__init__()
         response = requests.get(self.db.obtener_data()[3], timeout=10)
         ruta_guardado = asksaveasfilename(defaultextension=".png")
@@ -77,26 +68,6 @@ class OpenAI:
             archivo.write(response.content)
         self.db.close()
 
-# por hacer:
-# aqui el contexto debe ser el que le ingreso el usuario a la BD y si no hay ninguno tomar este
     def reiniciar(self):
-        self.db_contexto = [
-            {"role": "system", "content": "Eres un asistente virtual útil"}]
-
-
-""" db = Database()
-db.ingresar_data(
-    lugar="key", data="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")
-db.ingresar_data(lugar="modelo", data="gpt-3.5-turbo")
-db.ingresar_data(lugar="contexto",data=[{"role": "system", "content": "Eres muy gracioso"}])
-db.close() """
-
-""" ia = OpenAI()
-print(ia.openai_key)
-print(ia.db_modelo)
-print(ia.db_contexto)
-
-while True:
-    user_input = input("User: ")
-    response = ia.preguntar(user_input)
-    print("Assistant:", response) """
+        "Reinicia el contexto de la DB"
+        self.db_contexto = self.db.obtener_data()[2]
