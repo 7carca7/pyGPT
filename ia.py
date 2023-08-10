@@ -9,14 +9,22 @@ class Database:
         self.conn = shelve.open("iaDB")
 
     def obtener_data(self):
+        self.__init__()
         key = self.conn.get("key")
         modelo = self.conn.get("modelo")
+        if "contexto" not in self.conn:
+            self.conn["contexto"] = [
+                {"role": "system", "content": "Eres un asistente virtual útil"}]
         contexto = self.conn.get("contexto")
+        url = self.conn.get("url")
+        self.close()
 
-        return key, modelo, contexto
+        return key, modelo, contexto, url
 
     def ingresar_data(self, lugar, data):
+        self.__init__()
         self.conn[lugar] = data
+        self.close()
 
     def close(self):
         self.conn.close()
@@ -25,11 +33,14 @@ class Database:
 class OpenAI:
     def __init__(self):
         self.db = Database()
-        self.openai_key, self.db_modelo, self.db_contexto = self.db.obtener_data()
+        self.db.__init__()
+        self.openai_key, self.db_modelo, self.db_contexto, self.url = self.db.obtener_data()
         openai.api_key = self.openai_key
-        if self.db_contexto != "" or self.db_contexto is None:
-            self.db_contexto = [
-                {"role": "system", "content": "Eres un asistente virtual útil"}]
+        # if self.db_contexto == "" or self.db_contexto is None:
+        #    self.db_contexto = [
+        #        {"role": "system", "content": "Eres un asistente virtual útil"}]
+
+        self.db.close()
 
     def preguntar(self, user_entry):
         self.db_contexto.append({"role": "user", "content": user_entry})
@@ -37,23 +48,31 @@ class OpenAI:
             model=self.db_modelo, messages=self.db_contexto)
         respuesta = respuesta.choices[0].message.content
         self.db_contexto.append({"role": "assistant", "content": respuesta})
-        print(self.db_contexto)
+        # print(self.db_contexto)
+        # self.db.__init__()
+        # print(self.db.obtener_data()[2])
+        # self.db.close()
         print(respuesta)
 
         return respuesta
 
     def crear_imagen(self, user_entry):
+        self.db.__init__()
         response = openai.Image.create(
             prompt=user_entry, n=1, size="1024x1024")
         imagen_url = response['data'][0]['url']
+        self.db.ingresar_data("url", imagen_url)
+        self.db.close()
         return imagen_url
 
-    def guardar(self,url):
-        imagen_url = url
-        response = requests.get(imagen_url, timeout=10)
+    def guardar(self):
+        # imagen_url = self.url
+        self.db.__init__()
+        response = requests.get(self.db.obtener_data()[3], timeout=10)
         ruta_guardado = asksaveasfilename(defaultextension=".png")
         with open(ruta_guardado, "wb") as archivo:
             archivo.write(response.content)
+        self.db.close()
 
 # por hacer:
 # aqui el contexto debe ser el que le ingreso el usuario a la BD y si no hay ninguno tomar este

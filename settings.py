@@ -14,16 +14,25 @@ class Config:
     #    self.db.ingresar_data(lugar, data)
 
     def aplicar(self, valor_key, valor_modelo, valor_contexto):
+        self.db.__init__()
         self.key = valor_key
         self.modelo = valor_modelo
         self.contexto = valor_contexto
 
-        if self.key != "" or self.key is None:
-            self.db.ingresar_data("key", self.key)
-        if self.modelo != "" or self.modelo is None:
+        if self.key != "":
+            self.db.ingresar_data("key", valor_key)
+            print(self.key, type(self.key))
+
+        if self.modelo != "":
             self.db.ingresar_data("modelo", self.modelo)
-        if self.contexto != "" or self.contexto is None:
-            self.db.ingresar_data("contexto", self.contexto)
+            print(self.modelo, type(self.modelo))
+
+        if self.contexto != "":
+            self.db.ingresar_data(
+                "contexto", [{"role": "system", "content": self.contexto}])
+            print(self.contexto, type(self.contexto))
+
+        self.db.close()
 
     def abrir_enlace(self, url):
         "Abre los enlaces de ayuda"

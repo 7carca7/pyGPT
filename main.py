@@ -15,7 +15,7 @@ from settings import Config
 db = Database()
 ia = OpenAI()
 conf = Config()
-URL_IMAGEN = ""
+# URL_IMAGEN = ""
 # openai.api_key = "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"
 
 ##################################################################################################
@@ -153,8 +153,11 @@ def change_scaling_event(new_scaling: str):
     "Cambia la escala de la UI"
     new_scaling_float = int(new_scaling.replace("%", "")) / 100
     ctk.set_widget_scaling(new_scaling_float) """
-
-
+db.__init__()
+print(db.obtener_data()[0])
+print(db.obtener_data()[1])
+print(db.obtener_data()[2])
+db.close()
 ##################################################################################################
 ##################################################################################################
 MyTabView.add("CHAT")
@@ -282,13 +285,13 @@ def crear():
     photo = ctk.CTkImage(imagen_crear, size=(470, 405))
     label_imagen = ctk.CTkLabel(frame_salida_imagen, image=photo, text="")
     label_imagen.grid(row=0, column=0, sticky="nswe")
-    #URL_IMAGEN = imagen_url
+    # URL_IMAGEN = imagen_url
     entrada_imagen.delete("0", "end")
-    entrada_imagen.insert(0, imagen_url)
+    # entrada_imagen.insert(0, imagen_url)
 
 
 boton_descargar_imagen = ctk.CTkButton(
-    contenedor_botones_imagen, text="\u2B07", command=lambda: ia.guardar(entrada_imagen.get()))
+    contenedor_botones_imagen, text="\u2B07", command=lambda: ia.guardar())
 boton_descargar_imagen.grid(row=0, column=1, padx=(10, 0), sticky="ew")
 boton_descargar_imagen.configure(
     width=35, fg_color="#009E54", hover_color="#008D47")
@@ -333,10 +336,10 @@ ek_label = ctk.CTkLabel(
     api, text="GPT Key", text_color="#A8A8A8", font=("", 17))
 ek_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
 entrada_key = ctk.CTkEntry(
-    api, placeholder_text_color="#A8A8A8", placeholder_text=openai.api_key)
+    api, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[0])
 entrada_key.grid(row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
 enlace_api = ctk.CTkLabel(
-    api, text="\u24D8 Obtener una API", text_color="#1E90FF", cursor="pointinghand")
+    api, text="\u24D8 Obtener una API-KEY", text_color="#1E90FF", cursor="pointinghand")
 enlace_api.grid(row=0, column=0, padx=5, sticky="e")
 enlace_api.bind(
     "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
@@ -349,8 +352,9 @@ contexto.grid_columnconfigure(1, weight=0)
 ec_label = ctk.CTkLabel(
     contexto, text="GPT Contexto", text_color="#A8A8A8", font=("", 17))
 ec_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
+
 entrada_contexto = ctk.CTkEntry(
-    contexto, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[2])  # PREGUNTAS_RESPUESTAS[0]["content"]
+    contexto, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[2][0]["content"])  # PREGUNTAS_RESPUESTAS[0]["content"]
 entrada_contexto.grid(
     row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
 enlace_contexto = ctk.CTkLabel(
