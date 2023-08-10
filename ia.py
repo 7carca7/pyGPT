@@ -42,11 +42,7 @@ class OpenAI:
 
         self.db.close()
 
-    def reinicializar(self):
-        self.__init__()
-
     def preguntar(self, user_entry):
-        self.reinicializar()
         print(self.openai_key)
         print(self.db_modelo)
         print(self.db_contexto)
