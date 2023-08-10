@@ -43,6 +43,10 @@ class OpenAI:
         self.db.close()
 
     def preguntar(self, user_entry):
+        self.__init__()
+        print(self.openai_key)
+        print(self.db_modelo)
+        print(self.db_contexto)
         self.db_contexto.append({"role": "user", "content": user_entry})
         respuesta = openai.ChatCompletion.create(
             model=self.db_modelo, messages=self.db_contexto)
@@ -52,7 +56,8 @@ class OpenAI:
         # self.db.__init__()
         # print(self.db.obtener_data()[2])
         # self.db.close()
-        print(respuesta)
+
+        # print(respuesta)
 
         return respuesta
 

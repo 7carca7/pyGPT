@@ -153,11 +153,11 @@ def change_scaling_event(new_scaling: str):
     "Cambia la escala de la UI"
     new_scaling_float = int(new_scaling.replace("%", "")) / 100
     ctk.set_widget_scaling(new_scaling_float) """
-db.__init__()
+""" db.__init__()
 print(db.obtener_data()[0])
 print(db.obtener_data()[1])
 print(db.obtener_data()[2])
-db.close()
+db.close() """
 ##################################################################################################
 ##################################################################################################
 MyTabView.add("CHAT")

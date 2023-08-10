@@ -1,4 +1,4 @@
-from ia import Database
+from ia import Database, OpenAI
 
 import webbrowser
 import customtkinter as ctk
@@ -7,6 +7,7 @@ import customtkinter as ctk
 class Config:
     def __init__(self):
         self.db = Database()
+        self.ia = OpenAI()
 
     # def aplicar(self, lugar, data):
     #    "Aplica los cambios de configuración"
