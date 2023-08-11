@@ -1,6 +1,6 @@
 "pyGPT es una interfaz gráfica para interactuar con Openai"
-#restaurar el key binding
 
+# el usuario no puede escribir si los 3 campos de la DB no estan llenos
 import urllib.request
 import io
 from tkinter.filedialog import asksaveasfilename
@@ -64,7 +64,8 @@ cuadro_inferior.grid_columnconfigure(1, weight=0)
 entrada = ctk.CTkEntry(cuadro_inferior, placeholder_text_color="#A8A8A8",
                        placeholder_text="Ingrese una pregunta...")
 entrada.grid(row=0, column=0, padx=(0, 9), sticky="we")
-# entrada.bind('<Return>', ia.preguntar(entrada.get))
+entrada.bind('<Return>', lambda event: enviar())
+
 
 contenedor_botones = ctk.CTkFrame(cuadro_inferior, fg_color="transparent")
 contenedor_botones.grid(row=0, column=1, sticky="ew")
@@ -127,7 +128,7 @@ entrada_imagen = ctk.CTkEntry(
     frame_entrada_imagen, placeholder_text_color="#A8A8A8",
     placeholder_text="Ingrese una descripción...")
 entrada_imagen.grid(row=0, column=0, padx=(0, 9), sticky="we")
-# entrada_imagen.bind('<Return>', ia.crear_imagen)
+entrada_imagen.bind('<Return>', lambda event: crear())
 
 contenedor_botones_imagen = ctk.CTkFrame(
     frame_entrada_imagen, fg_color="transparent")
@@ -171,11 +172,29 @@ frame_ajustes.grid_rowconfigure(2, weight=1)
 frame_ajustes.grid_columnconfigure(0, weight=1)
 
 
+api = ctk.CTkFrame(frame_ajustes)
+api.grid(row=0, column=0, sticky="new")
+api.grid_columnconfigure(0, weight=1)
+ek_label = ctk.CTkLabel(
+    api, text="API Key", text_color="#A8A8A8", font=("", 17))
+ek_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
+entrada_key = ctk.CTkEntry(
+    api, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[0])
+entrada_key.grid(row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
+enlace_api = ctk.CTkLabel(
+    api, text="\u24D8 Obtener una API Key", text_color="#1E90FF", cursor="pointinghand")
+enlace_api.grid(row=0, column=0, padx=5, sticky="e")
+enlace_api.bind(
+    "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
+entrada_key.bind('<Return>', lambda event: conf.aplicar(
+    entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
+
+
 gpt_modelo = ctk.CTkFrame(frame_ajustes)
-gpt_modelo.grid(row=0, column=0, sticky="new")
+gpt_modelo.grid(row=1, column=0, pady=(7, 0), sticky="new")
 gpt_modelo.grid_columnconfigure(0, weight=1)
 ev_label = ctk.CTkLabel(
-    gpt_modelo, text="GPT Versión", text_color="#A8A8A8", font=("", 17))
+    gpt_modelo, text="GPT Modelo", text_color="#A8A8A8", font=("", 17))
 ev_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
 entrada_modelo = ctk.CTkEntry(
     gpt_modelo, placeholder_text_color="#A8A8A8",
@@ -186,23 +205,9 @@ enlace_modelo = ctk.CTkLabel(
 enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
 enlace_modelo.bind(
     "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/docs/models/"))
-# entrada_modelo.bind('<Return>', conf.aplicar)
+entrada_modelo.bind('<Return>', lambda event: conf.aplicar(
+    entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 
-api = ctk.CTkFrame(frame_ajustes)
-api.grid(row=1, column=0, pady=(7, 0), sticky="new")
-api.grid_columnconfigure(0, weight=1)
-ek_label = ctk.CTkLabel(
-    api, text="GPT Key", text_color="#A8A8A8", font=("", 17))
-ek_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
-entrada_key = ctk.CTkEntry(
-    api, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[0])
-entrada_key.grid(row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
-enlace_api = ctk.CTkLabel(
-    api, text="\u24D8 Obtener una API-KEY", text_color="#1E90FF", cursor="pointinghand")
-enlace_api.grid(row=0, column=0, padx=5, sticky="e")
-enlace_api.bind(
-    "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
-# entrada_key.bind('<Return>', conf.aplicar)
 
 contexto = ctk.CTkFrame(frame_ajustes)
 contexto.grid(row=2, column=0, pady=(7, 0), sticky="new")
@@ -221,7 +226,8 @@ enlace_contexto = ctk.CTkLabel(
 enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
 enlace_contexto.bind("<Button-1>", lambda e: conf.abrir_enlace(
     "https://platform.openai.com/docs/guides/chat/introduction"))
-# entrada_contexto.bind('<Return>', conf.aplicar)
+entrada_contexto.bind('<Return>', lambda event: conf.aplicar(
+    entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 
 frame_ajustes_inf = ctk.CTkFrame(
     MyTabView.tab("AJUSTES"), fg_color="transparent")
