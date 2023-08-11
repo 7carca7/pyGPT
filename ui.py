@@ -1,6 +1,6 @@
 "pyGPT es una interfaz gráfica para interactuar con Openai"
 
-# el usuario no puede escribir si los 3 campos de la DB no estan llenos
+
 import urllib.request
 import io
 from tkinter.filedialog import asksaveasfilename

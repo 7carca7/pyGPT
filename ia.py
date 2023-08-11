@@ -36,18 +36,26 @@ class OpenAI:
     def __init__(self):
         self.db = Database()
         self.db.__init__()
-        self.openai_key, self.db_modelo, self.db_contexto, self.url = self.db.obtener_data()
-        openai.api_key = self.openai_key
+        openai.api_key, self.db_modelo, self.db_contexto, self.url = self.db.obtener_data()
         self.db.close()
 
     def preguntar(self, user_entry):
         "A partir de la pregunta del usuario devuelve una respuesta y la agrega a un contexto"
+        self.actualizar()
         self.db_contexto.append({"role": "user", "content": user_entry})
         respuesta = openai.ChatCompletion.create(
             model=self.db_modelo, messages=self.db_contexto)
         respuesta = respuesta.choices[0].message.content
         self.db_contexto.append({"role": "assistant", "content": respuesta})
         return respuesta
+
+    def actualizar(self):
+        if openai.api_key != self.db.obtener_data()[0]:
+            openai.api_key = self.db.obtener_data()[0]
+        if self.db_modelo != self.db.obtener_data()[1]:
+            self.db_modelo = self.db.obtener_data()[1]
+        if self.db_contexto != self.db.obtener_data()[2]:
+            self.db_contexto = self.db.obtener_data()[2]
 
     def crear_imagen(self, user_entry):
         "Crea una imagen a partir de una descripción del usuario"

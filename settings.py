@@ -16,13 +16,12 @@ class Config:
         self.contexto = valor_contexto
 
         if self.key != "":
-            self.db.ingresar_data("key", valor_key)
+            self.db.ingresar_data("key", self.key)
         if self.modelo != "":
             self.db.ingresar_data("modelo", self.modelo)
         if self.contexto != "":
             self.db.ingresar_data(
                 "contexto", [{"role": "system", "content": self.contexto}])
-
         self.db.close()
 
     def abrir_enlace(self, url):
