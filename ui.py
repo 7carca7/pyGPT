@@ -1,5 +1,5 @@
 "pyGPT es una interfaz gráfica para interactuar con Openai"
-
+#restaurar el key binding
 
 import urllib.request
 import io
