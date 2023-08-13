@@ -46,7 +46,14 @@ class ChatView:
         boton_enviar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
+        boton_reiniciar = ctk.CTkButton(
+            contenedor_botones, text="\u267A", font=("", 16), command=lambda: reiniciar())
+        boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
+        boton_reiniciar.configure(
+            width=35, fg_color="#F28A30", hover_color="#CE7529")
+
         def enviar():
+            "Le envia a la IA la pregunta del usuario"
             respuesta = ia.preguntar(entrada.get())
             salida.configure(state="normal")
             salida.delete(0.0, ctk.END)
@@ -54,13 +61,8 @@ class ChatView:
             salida.configure(state="disabled")
             entrada.delete("0", "end")
 
-        boton_reiniciar = ctk.CTkButton(
-            contenedor_botones, text="\u267A", font=("", 16), command=lambda: reiniciar())
-        boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
-        boton_reiniciar.configure(
-            width=35, fg_color="#F28A30", hover_color="#CE7529")
-
         def reiniciar():
+            "Le dice a la IA que reinicie el contexto de la conversación"
             ia.reiniciar()
             salida.configure(state='normal')
             salida.delete(0.0, ctk.END)

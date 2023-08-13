@@ -1,22 +1,21 @@
 "pyGPT es una interfaz gráfica para interactuar con Openai"
 
-
 import urllib.request
 import io
 from PIL import Image
 import customtkinter as ctk
 from ia import OpenAI, Database
 from settings import Config
-from chat_view import ChatView
-from imagen_view import ImagenView
-from ajustes_view import AjustesView
+from tabs_views.chat_view import ChatView
+from tabs_views.imagen_view import ImagenView
+from tabs_views.ajustes_view import AjustesView
+
+# gpt-3.5-turbo
+# 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
 
 db = Database()
 ia = OpenAI()
 conf = Config()
-
-# gpt-3.5-turbo
-# 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
 
 app = ctk.CTk()
 app.geometry("500x500")
@@ -35,4 +34,5 @@ ChatView(MyTabView, ctk, ia)
 ImagenView(MyTabView, ctk, ia, urllib, Image, io)
 AjustesView(MyTabView, ctk, db, conf)
 
-app.mainloop()
+if __name__ == "__main__":
+    app.mainloop()

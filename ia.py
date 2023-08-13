@@ -1,3 +1,5 @@
+"Clases OpenAI y Database"
+
 import shelve
 import openai
 import requests
