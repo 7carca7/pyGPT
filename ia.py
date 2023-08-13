@@ -54,8 +54,6 @@ class OpenAI:
             openai.api_key = self.db.obtener_data()[0]
         if self.db_modelo != self.db.obtener_data()[1]:
             self.db_modelo = self.db.obtener_data()[1]
-        if self.db_contexto != self.db.obtener_data()[2]:
-            self.db_contexto = self.db.obtener_data()[2]
 
     def crear_imagen(self, user_entry):
         "Crea una imagen a partir de una descripción del usuario"
