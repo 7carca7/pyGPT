@@ -1,5 +1,6 @@
-from ia import Database
+"Clase para la configuración"
 
+from ia import Database
 import webbrowser
 import customtkinter as ctk
 
