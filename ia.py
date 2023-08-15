@@ -52,6 +52,7 @@ class OpenAI:
         return respuesta
 
     def actualizar(self):
+        "Sincroniza y compara los valores de la DB com los de la instancia de la aplicación"
         if openai.api_key != self.db.obtener_data()[0]:
             openai.api_key = self.db.obtener_data()[0]
         if self.db_modelo != self.db.obtener_data()[1]:
