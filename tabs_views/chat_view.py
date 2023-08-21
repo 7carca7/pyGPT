@@ -1,12 +1,17 @@
-class ChatView:
-    def __init__(self, MyTabView, ctk, ia):
+"Módulo que encarga de la estructura de la tab Chat"
 
-        MyTabView.add("CHAT")
-        MyTabView.tab("CHAT").grid_columnconfigure(0, weight=1)
-        MyTabView.tab("CHAT").grid_rowconfigure(0, weight=1)
+
+class ChatView:
+    "Se define la UI de la tab Chat"
+
+    def __init__(self, my_tab_view, ctk, ai_model):
+
+        my_tab_view.add("CHAT")
+        my_tab_view.tab("CHAT").grid_columnconfigure(0, weight=1)
+        my_tab_view.tab("CHAT").grid_rowconfigure(0, weight=1)
 
         frame_principal = ctk.CTkFrame(
-            MyTabView.tab("CHAT"), border_width=-10, fg_color="transparent")
+            my_tab_view.tab("CHAT"), border_width=-10, fg_color="transparent")
         frame_principal.grid(row=0, column=0, padx=6, sticky="nsew")
         frame_principal.grid_rowconfigure(0, weight=1)
         frame_principal.grid_columnconfigure(0, weight=1)
@@ -54,7 +59,7 @@ class ChatView:
 
         def enviar():
             "Le envia a la IA la pregunta del usuario"
-            respuesta = ia.preguntar(entrada.get())
+            respuesta = ai_model.preguntar(entrada.get())
             salida.configure(state="normal")
             salida.delete(0.0, ctk.END)
             salida.insert("0.0", respuesta)
@@ -63,7 +68,7 @@ class ChatView:
 
         def reiniciar():
             "Le dice a la IA que reinicie el contexto de la conversación"
-            ia.reiniciar()
+            ai_model.reiniciar()
             salida.configure(state='normal')
             salida.delete(0.0, ctk.END)
             salida.configure(state='disabled')

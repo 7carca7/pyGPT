@@ -1,4 +1,8 @@
+"Módulo que encarga de la estructura de la tab Ajustes"
+
+
 class ImagenView:
+    "Se define la UI de la tab Ajustes"
     def __init__(self, MyTabView, ctk, ia, urllib, Image, io):
 
         MyTabView.add("IMAGEN")
