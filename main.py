@@ -15,6 +15,7 @@ db = Database()
 ia = OpenAI()
 conf = Config()
 
+# MAIN APP
 app = ctk.CTk()
 app.geometry("500x500")
 app.title("pyGPT")
@@ -32,5 +33,6 @@ ChatView(MyTabView, ctk, ia)
 ImagenView(MyTabView, ctk, ia, urllib, Image, io)
 AjustesView(MyTabView, ctk, db, conf)
 
+# RUN APP
 if __name__ == "__main__":
     app.mainloop()
