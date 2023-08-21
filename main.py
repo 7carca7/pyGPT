@@ -10,8 +10,6 @@ from tabs_views.chat_view import ChatView
 from tabs_views.imagen_view import ImagenView
 from tabs_views.ajustes_view import AjustesView
 
-# gpt-3.5-turbo
-# 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
 
 db = Database()
 ia = OpenAI()
