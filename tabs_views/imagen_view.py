@@ -1,16 +1,17 @@
-"Módulo que encarga de la estructura de la tab Ajustes"
+"Módulo que encarga de la estructura de la tab Imagen"
 
 
 class ImagenView:
-    "Se define la UI de la tab Ajustes"
-    def __init__(self, MyTabView, ctk, ia, urllib, Image, io):
+    "Se define la UI de la tab Imagen"
 
-        MyTabView.add("IMAGEN")
-        MyTabView.tab("IMAGEN").grid_columnconfigure(0, weight=1)
-        MyTabView.tab("IMAGEN").grid_rowconfigure(0, weight=1)
+    def __init__(self, my_tab_view, ctk, ai_model, urllib, image, io_module):
+
+        my_tab_view.add("IMAGEN")
+        my_tab_view.tab("IMAGEN").grid_columnconfigure(0, weight=1)
+        my_tab_view.tab("IMAGEN").grid_rowconfigure(0, weight=1)
 
         frame_imagen = ctk.CTkFrame(
-            MyTabView.tab("IMAGEN"), border_width=-10, fg_color="transparent")
+            my_tab_view.tab("IMAGEN"), border_width=-10, fg_color="transparent")
         frame_imagen.grid(row=0, column=0, padx=6, sticky="nsew")
         frame_imagen.grid_rowconfigure(0, weight=1)
         frame_imagen.grid_columnconfigure(0, weight=1)
@@ -45,17 +46,17 @@ class ImagenView:
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
         boton_descargar_imagen = ctk.CTkButton(
-            contenedor_botones_imagen, text="\u2B07", command=lambda: ia.guardar())
+            contenedor_botones_imagen, text="\u2B07", command=lambda: ai_model.guardar())
         boton_descargar_imagen.grid(row=0, column=1, padx=(10, 0), sticky="ew")
         boton_descargar_imagen.configure(
             width=35, fg_color="#009E54", hover_color="#008D47")
 
         def crear():
             "Crea una imagen a partir del prompt del usuario"
-            imagen_url = ia.crear_imagen(entrada_imagen.get())
+            imagen_url = ai_model.crear_imagen(entrada_imagen.get())
             with urllib.request.urlopen(imagen_url) as url_datos:
                 raw_data = url_datos.read()
-            imagen_crear = Image.open(io.BytesIO(raw_data))
+            imagen_crear = image.open(io_module.BytesIO(raw_data))
             photo = ctk.CTkImage(imagen_crear, size=(470, 405))
             label_imagen = ctk.CTkLabel(
                 frame_salida_imagen, image=photo, text="")
