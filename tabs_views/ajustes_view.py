@@ -1,11 +1,16 @@
+"Módulo que encarga de la estructura de la tab Ajustes"
+
+
 class AjustesView:
-    def __init__(self, MyTabView, ctk, db, conf):
+    "Se define la UI de la tab Ajustes"
 
-        MyTabView.add("AJUSTES")
-        MyTabView.tab("AJUSTES").grid_columnconfigure(0, weight=1)
-        MyTabView.tab("AJUSTES").grid_rowconfigure(0, weight=1)
+    def __init__(self, my_tab_view, ctk, database, conf):
 
-        frame_ajustes = ctk.CTkFrame(MyTabView.tab(
+        my_tab_view.add("AJUSTES")
+        my_tab_view.tab("AJUSTES").grid_columnconfigure(0, weight=1)
+        my_tab_view.tab("AJUSTES").grid_rowconfigure(0, weight=1)
+
+        frame_ajustes = ctk.CTkFrame(my_tab_view.tab(
             "AJUSTES"), border_width=-10, fg_color="transparent")
         frame_ajustes.grid(row=0, column=0, padx=6, sticky="nsew")
         frame_ajustes.grid_rowconfigure(2, weight=1)
@@ -18,14 +23,15 @@ class AjustesView:
             api, text="API Key", text_color="#A8A8A8", font=("", 17))
         ek_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
         entrada_key = ctk.CTkEntry(
-            api, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[0])
+            api, placeholder_text_color="#A8A8A8", placeholder_text=database.obtener_data()[0])
         entrada_key.grid(row=1, column=0, padx=(
             5, 5), pady=(0, 5), sticky="nsew")
         enlace_api = ctk.CTkLabel(
             api, text="\u24D8 Obtener una API Key", text_color="#1E90FF", cursor="pointinghand")
         enlace_api.grid(row=0, column=0, padx=5, sticky="e")
         enlace_api.bind(
-            "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
+            "<Button-1>",
+            lambda e: conf.abrir_enlace("https://platform.openai.com/account/api-keys"))
         entrada_key.bind('<Return>', lambda event: conf.aplicar(
             entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 
@@ -37,11 +43,12 @@ class AjustesView:
         ev_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
         entrada_modelo = ctk.CTkEntry(
             gpt_modelo, placeholder_text_color="#A8A8A8",
-            placeholder_text=db.obtener_data()[1])
+            placeholder_text=database.obtener_data()[1])
         entrada_modelo.grid(row=1, column=0, padx=(5, 5),
                             pady=(0, 5), sticky="nsew")
         enlace_modelo = ctk.CTkLabel(
-            gpt_modelo, text="\u24D8 Modelos disponibles", text_color="#1E90FF", cursor="pointinghand")
+            gpt_modelo, text="\u24D8 Modelos disponibles",
+            text_color="#1E90FF", cursor="pointinghand")
         enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
         enlace_modelo.bind(
             "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/docs/models/"))
@@ -57,11 +64,13 @@ class AjustesView:
         ec_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
 
         entrada_contexto = ctk.CTkEntry(
-            contexto, placeholder_text_color="#A8A8A8", placeholder_text=db.obtener_data()[2][0]["content"])  # PREGUNTAS_RESPUESTAS[0]["content"]
+            contexto, placeholder_text_color="#A8A8A8",
+            placeholder_text=database.obtener_data()[2][0]["content"])
         entrada_contexto.grid(
             row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
         enlace_contexto = ctk.CTkLabel(
-            contexto, text="\u24D8 Acerca de los contextos", text_color="#1E90FF", cursor="pointinghand")
+            contexto, text="\u24D8 Acerca de los contextos",
+            text_color="#1E90FF", cursor="pointinghand")
         enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
         enlace_contexto.bind("<Button-1>", lambda e: conf.abrir_enlace(
             "https://platform.openai.com/docs/guides/chat/introduction"))
@@ -69,7 +78,7 @@ class AjustesView:
             entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
 
         frame_ajustes_inf = ctk.CTkFrame(
-            MyTabView.tab("AJUSTES"), fg_color="transparent")
+            my_tab_view.tab("AJUSTES"), fg_color="transparent")
         frame_ajustes_inf.grid(padx=6, pady=(0, 7), sticky="swe")
         frame_ajustes_inf.grid_rowconfigure(0, weight=1)
         frame_ajustes_inf.grid_columnconfigure(0, weight=3)
@@ -85,7 +94,8 @@ class AjustesView:
         opcion_esc.grid(row=1, column=0, sticky="w")
 
         boton_aplicar = ctk.CTkButton(
-            frame_ajustes_inf, text="Aplicar", command=lambda: conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
+            frame_ajustes_inf, text="Aplicar", command=lambda:
+            conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
         boton_aplicar.grid(row=1, column=1, sticky="ew")
         boton_aplicar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
