@@ -1,29 +1,31 @@
 "Clase para la configuración"
 
-from ia import Database
 import webbrowser
 import customtkinter as ctk
+from ia import Database
 
 
 class Config:
+    "Se establece la estructura de la configuración"
+
     def __init__(self):
-        self.db = Database()
+        self.database = Database()
 
     def aplicar(self, valor_key, valor_modelo, valor_contexto):
         "Si hay datos nuevos en los campos de Settings los ingresa en la DB"
-        self.db.__init__()
-        self.key = valor_key
-        self.modelo = valor_modelo
-        self.contexto = valor_contexto
+        # self.db.__init__()
+        # self.key = valor_key
+        # self.modelo = valor_modelo
+        # self.contexto = valor_contexto
 
-        if self.key != "":
-            self.db.ingresar_data("key", self.key)
-        if self.modelo != "":
-            self.db.ingresar_data("modelo", self.modelo)
-        if self.contexto != "":
-            self.db.ingresar_data(
-                "contexto", [{"role": "system", "content": self.contexto}])
-        self.db.close()
+        if valor_key != "":
+            self.database.ingresar_data("key", valor_key)
+        if valor_modelo != "":
+            self.database.ingresar_data("modelo", valor_modelo)
+        if valor_contexto != "":
+            self.database.ingresar_data(
+                "contexto", [{"role": "system", "content": valor_contexto}])
+        self.database.close()
 
     def abrir_enlace(self, url):
         "Abre los enlaces de ayuda"
