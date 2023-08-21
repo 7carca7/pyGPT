@@ -6,9 +6,9 @@ from PIL import Image
 import customtkinter as ctk
 from ia import OpenAI, Database
 from settings import Config
-from tabs_views.chat_view import ChatView
-from tabs_views.imagen_view import ImagenView
-from tabs_views.ajustes_view import AjustesView
+from tabs.chat_view import ChatView
+from tabs.imagen_view import ImagenView
+from tabs.ajustes_view import AjustesView
 
 
 db = Database()

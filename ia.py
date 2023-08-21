@@ -14,7 +14,7 @@ class Database:
 
     def open(self):
         "Abre la database"
-        self.conn = shelve.open("iaDB")
+        self.conn = shelve.open("database/iaDB")
 
     def obtener_data(self):
         "Obtiene y devuelve los valores alojados en la DB"
