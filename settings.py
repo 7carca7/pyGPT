@@ -13,11 +13,6 @@ class Config:
 
     def aplicar(self, valor_key, valor_modelo, valor_contexto):
         "Si hay datos nuevos en los campos de Settings los ingresa en la DB"
-        # self.db.__init__()
-        # self.key = valor_key
-        # self.modelo = valor_modelo
-        # self.contexto = valor_contexto
-
         if valor_key != "":
             self.database.ingresar_data("key", valor_key)
         if valor_modelo != "":
@@ -25,7 +20,6 @@ class Config:
         if valor_contexto != "":
             self.database.ingresar_data(
                 "contexto", [{"role": "system", "content": valor_contexto}])
-        self.database.close()
 
     def abrir_enlace(self, url):
         "Abre los enlaces de ayuda"
