@@ -2,6 +2,7 @@
 
 import shelve
 from tkinter.filedialog import asksaveasfilename
+import os
 import openai
 import requests
 
@@ -14,6 +15,8 @@ class Database:
 
     def open(self):
         "Abre la database"
+        if not os.path.exists("database"):
+            os.makedirs("database")
         self.conn = shelve.open("database/iaDB")
 
     def obtener_data(self):
