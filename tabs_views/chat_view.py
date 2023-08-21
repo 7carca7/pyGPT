@@ -6,6 +6,24 @@ class ChatView:
 
     def __init__(self, my_tab_view, ctk, ai_model):
 
+        def enviar():
+            "Le envia a la IA la pregunta del usuario"
+            respuesta = ai_model.preguntar(entrada.get())
+            salida.configure(state="normal")
+            salida.delete(0.0, ctk.END)
+            salida.insert("0.0", respuesta)
+            salida.configure(state="disabled")
+            entrada.delete("0", "end")
+
+        def reiniciar():
+            "Le dice a la IA que reinicie el contexto de la conversación"
+            ai_model.reiniciar()
+            salida.configure(state='normal')
+            salida.delete(0.0, ctk.END)
+            salida.configure(state='disabled')
+            entrada.delete("0", "end")
+            entrada.insert(0, "Conversación reiniciada...")
+
         my_tab_view.add("CHAT")
         my_tab_view.tab("CHAT").grid_columnconfigure(0, weight=1)
         my_tab_view.tab("CHAT").grid_rowconfigure(0, weight=1)
@@ -46,31 +64,13 @@ class ChatView:
         contenedor_botones.grid(row=0, column=1, sticky="ew")
 
         boton_enviar = ctk.CTkButton(
-            contenedor_botones, text="Enviar", command=lambda: enviar())
+            contenedor_botones, text="Enviar", command=enviar)
         boton_enviar.grid(row=0, column=0, sticky="ew")
         boton_enviar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
         boton_reiniciar = ctk.CTkButton(
-            contenedor_botones, text="\u267A", font=("", 16), command=lambda: reiniciar())
+            contenedor_botones, text="\u267A", font=("", 16), command=reiniciar)
         boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
         boton_reiniciar.configure(
             width=35, fg_color="#F28A30", hover_color="#CE7529")
-
-        def enviar():
-            "Le envia a la IA la pregunta del usuario"
-            respuesta = ai_model.preguntar(entrada.get())
-            salida.configure(state="normal")
-            salida.delete(0.0, ctk.END)
-            salida.insert("0.0", respuesta)
-            salida.configure(state="disabled")
-            entrada.delete("0", "end")
-
-        def reiniciar():
-            "Le dice a la IA que reinicie el contexto de la conversación"
-            ai_model.reiniciar()
-            salida.configure(state='normal')
-            salida.delete(0.0, ctk.END)
-            salida.configure(state='disabled')
-            entrada.delete("0", "end")
-            entrada.insert(0, "Conversación reiniciada...")
