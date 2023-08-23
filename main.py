@@ -1,4 +1,4 @@
-"pyGPT es una interfaz gráfica para interactuar con Openai"
+"pyGPT es una interfaz gráfica para interactuar con la API de Openai"
 
 import urllib.request
 import io
