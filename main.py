@@ -23,7 +23,8 @@ app.grid_columnconfigure(0, weight=1)
 app.grid_rowconfigure(0, weight=1)
 app.minsize(350, 500)
 MyTabView = ctk.CTkTabview(app)
-"Sistema de pestañas"
+
+# TABS SYSTEM
 MyTabView.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
 MyTabView.configure(fg_color="transparent", segmented_button_selected_color="#1E90FF",
                     segmented_button_selected_hover_color="#1A7AD9")
