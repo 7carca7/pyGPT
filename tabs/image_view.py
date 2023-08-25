@@ -1,29 +1,33 @@
-"Módulo que encarga de la estructura de la tab Imagen"
+"Module that handles the structure of the Image tab"
+
+import urllib
+import io
 
 
-class ImagenView:
-    "Se define la UI de la tab Imagen"
+class ImageView:
+    "UI of the Image tab is defined"
 
-    def __init__(self, my_tab_view, ctk, ai_model, urllib, image, io_module):
+    def __init__(self, my_tab_view, ctk, ai_model, image):
 
         def crear():
-            "Crea una imagen a partir del prompt del usuario"
+            "Create an image from the user prompt"
+
             imagen_url = ai_model.crear_imagen(entrada_imagen.get())
             with urllib.request.urlopen(imagen_url) as url_datos:
                 raw_data = url_datos.read()
-            imagen_crear = image.open(io_module.BytesIO(raw_data))
+            imagen_crear = image.open(io.BytesIO(raw_data))
             photo = ctk.CTkImage(imagen_crear, size=(470, 405))
             label_imagen = ctk.CTkLabel(
                 frame_salida_imagen, image=photo, text="")
             label_imagen.grid(row=0, column=0, sticky="nswe")
             entrada_imagen.delete("0", "end")
 
-        my_tab_view.add("IMAGEN")
-        my_tab_view.tab("IMAGEN").grid_columnconfigure(0, weight=1)
-        my_tab_view.tab("IMAGEN").grid_rowconfigure(0, weight=1)
+        my_tab_view.add("IMAGE")
+        my_tab_view.tab("IMAGE").grid_columnconfigure(0, weight=1)
+        my_tab_view.tab("IMAGE").grid_rowconfigure(0, weight=1)
 
         frame_imagen = ctk.CTkFrame(
-            my_tab_view.tab("IMAGEN"), border_width=-10, fg_color="transparent")
+            my_tab_view.tab("IMAGE"), border_width=-10, fg_color="transparent")
         frame_imagen.grid(row=0, column=0, padx=6, sticky="nsew")
         frame_imagen.grid_rowconfigure(0, weight=1)
         frame_imagen.grid_columnconfigure(0, weight=1)
@@ -43,7 +47,7 @@ class ImagenView:
 
         entrada_imagen = ctk.CTkEntry(
             frame_entrada_imagen, placeholder_text_color="#A8A8A8",
-            placeholder_text="Ingrese una descripción...")
+            placeholder_text="Enter a description...")
         entrada_imagen.grid(row=0, column=0, padx=(0, 9), sticky="we")
         entrada_imagen.bind('<Return>', lambda event: crear())
 

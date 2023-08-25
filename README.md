@@ -1,6 +1,6 @@
 # pyGPT
-Simple UI para interactuar con la API de openAI.
+Customtkinter UI to interact with openAI API.
 
-## Implementado:
+## Implemented:
 - ChatGPT
 - DALL·E

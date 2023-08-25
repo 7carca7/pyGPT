@@ -1,13 +1,13 @@
-"Módulo que encarga de la estructura de la tab Chat"
+"Module that handles the structure of the Chat tab"
 
 
 class ChatView:
-    "Se define la UI de la tab Chat"
+    "The UI of the Chat tab is defined"
 
     def __init__(self, my_tab_view, ctk, ai_model):
 
         def enviar():
-            "Le envia a la IA la pregunta del usuario"
+            "Sends the user's question to the AI"
             respuesta = ai_model.preguntar(entrada.get())
             salida.configure(state="normal")
             salida.delete(0.0, ctk.END)
@@ -16,13 +16,13 @@ class ChatView:
             entrada.delete("0", "end")
 
         def reiniciar():
-            "Le dice a la IA que reinicie el contexto de la conversación"
+            "Tells the AI to restart the conversation context"
             ai_model.reiniciar()
             salida.configure(state='normal')
             salida.delete(0.0, ctk.END)
             salida.configure(state='disabled')
             entrada.delete("0", "end")
-            entrada.insert(0, "Conversación reiniciada...")
+            entrada.insert(0, "Conversation restarted...")
 
         my_tab_view.add("CHAT")
         my_tab_view.tab("CHAT").grid_columnconfigure(0, weight=1)
@@ -55,7 +55,7 @@ class ChatView:
         cuadro_inferior.grid_columnconfigure(1, weight=0)
 
         entrada = ctk.CTkEntry(cuadro_inferior, placeholder_text_color="#A8A8A8",
-                               placeholder_text="Ingrese una pregunta...")
+                               placeholder_text="Enter a question...")
         entrada.grid(row=0, column=0, padx=(0, 9), sticky="we")
         entrada.bind('<Return>', lambda event: enviar())
 

@@ -1,14 +1,12 @@
-"pyGPT es una interfaz gráfica para interactuar con la API de Openai"
+"pyGPT is a graphical interface to interact with the Openai API"
 
-import urllib.request
-import io
 from PIL import Image
 import customtkinter as ctk
 from ia import OpenAI, Database
 from settings import Config
 from tabs.chat_view import ChatView
-from tabs.imagen_view import ImagenView
-from tabs.ajustes_view import AjustesView
+from tabs.image_view import ImageView
+from tabs.settings_view import SettingsView
 
 
 db = Database()
@@ -31,8 +29,8 @@ MyTabView.configure(fg_color="transparent", segmented_button_selected_color="#1E
 
 # TABS
 ChatView(MyTabView, ctk, ia)
-ImagenView(MyTabView, ctk, ia, urllib, Image, io)
-AjustesView(MyTabView, ctk, db, conf)
+ImageView(MyTabView, ctk, ia, Image)
+SettingsView(MyTabView, ctk, db, conf)
 
 # RUN APP
 if __name__ == "__main__":

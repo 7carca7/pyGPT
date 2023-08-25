@@ -1,4 +1,4 @@
-"Clases OpenAI y Database"
+"OpenAI and Database classes"
 
 import shelve
 from tkinter.filedialog import asksaveasfilename
@@ -8,50 +8,50 @@ import requests
 
 
 class Database:
-    "Estructura de la clase Database"
+    "Database Structure"
 
     def __init__(self):
         self.conn = None
 
     def open(self):
-        "Abre la database"
+        "Open the DB"
         if not os.path.exists("database"):
             os.makedirs("database")
         self.conn = shelve.open("database/iaDB")
 
     def obtener_data(self):
-        "Obtiene y devuelve los valores alojados en la DB"
+        "Gets and returns the values stored in the DB"
         self.open()
         key = self.conn.get("key")
         modelo = self.conn.get("modelo")
         if "contexto" not in self.conn:
             self.conn["contexto"] = [
-                {"role": "system", "content": "Eres un asistente virtual útil"}]
+                {"role": "system", "content": "You are a useful virtual assistant"}]
         contexto = self.conn.get("contexto")
         url = self.conn.get("url")
         self.close()
         return key, modelo, contexto, url
 
     def ingresar_data(self, lugar, data):
-        "Ingresa información a la DB con el esquema Lugar-Data"
+        "Add information to the DB with the Place-Data scheme"
         self.open()
         self.conn[lugar] = data
         self.close()
 
     def close(self):
-        "Cierra la DB"
+        "Close the DB"
         self.conn.close()
 
 
 class OpenAI:
-    "Estructura de la IA"
+    "AI structure"
 
     def __init__(self):
         self.database = Database()
         openai.api_key, self.db_modelo, self.db_contexto, self.url = self.database.obtener_data()
 
     def preguntar(self, user_entry):
-        "A partir de la pregunta del usuario devuelve una respuesta y la agrega a un contexto"
+        "From the user's question returns an answer and adds it to a context"
         self.actualizar()
         self.db_contexto.append({"role": "user", "content": user_entry})
         respuesta = openai.ChatCompletion.create(
@@ -61,14 +61,14 @@ class OpenAI:
         return respuesta
 
     def actualizar(self):
-        "Sincroniza y compara los valores de la DB com los de la instancia de la aplicación"
+        "Synchronize and compare the values of the DB with those of the application instance"
         if openai.api_key != self.database.obtener_data()[0]:
             openai.api_key = self.database.obtener_data()[0]
         if self.db_modelo != self.database.obtener_data()[1]:
             self.db_modelo = self.database.obtener_data()[1]
 
     def crear_imagen(self, user_entry):
-        "Crea una imagen a partir de una descripción del usuario"
+        "Create an image from a user description"
         response = openai.Image.create(
             prompt=user_entry, n=1, size="1024x1024")
         imagen_url = response['data'][0]['url']
@@ -76,12 +76,12 @@ class OpenAI:
         return imagen_url
 
     def guardar(self):
-        "Guarda la imagen generada en el sistema"
+        "Save the generated image in the system"
         response = requests.get(self.database.obtener_data()[3], timeout=10)
         ruta_guardado = asksaveasfilename(defaultextension=".png")
         with open(ruta_guardado, "wb") as archivo:
             archivo.write(response.content)
 
     def reiniciar(self):
-        "Reinicia el contexto de la DB"
+        "Restarts the DB context"
         self.db_contexto = self.database.obtener_data()[2]
