@@ -6,4 +6,4 @@ Customtkinter UI to interact with openAI API
 - DALL·E
 
 ### Notes:
-- Made for educational purposes
+Made for educational purposes
