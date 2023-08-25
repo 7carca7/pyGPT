@@ -1,5 +1,5 @@
 # pyGPT
-Customtkinter UI to interact with openAI API.
+Customtkinter UI to interact with openAI API
 
 ## Implemented:
 - ChatGPT
