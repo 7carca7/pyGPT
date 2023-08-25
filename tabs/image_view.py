@@ -56,7 +56,7 @@ class ImageView:
         contenedor_botones_imagen.grid(row=0, column=1, sticky="ew")
 
         boton_entrada_imagen = ctk.CTkButton(
-            contenedor_botones_imagen, text="Crear", command=crear)
+            contenedor_botones_imagen, text="Create", command=crear)
         boton_entrada_imagen.grid(row=0, column=0, sticky="ew")
         boton_entrada_imagen.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")

@@ -64,7 +64,7 @@ class ChatView:
         contenedor_botones.grid(row=0, column=1, sticky="ew")
 
         boton_enviar = ctk.CTkButton(
-            contenedor_botones, text="Enviar", command=enviar)
+            contenedor_botones, text="Send", command=enviar)
         boton_enviar.grid(row=0, column=0, sticky="ew")
         boton_enviar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
