@@ -2,9 +2,9 @@
 [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) UI to interact with openAI API
 
 <p align="center">
-  <img src="media/img-1.png" width="333" />
-  <img src="media/img-2.png" width="333" /> 
-  <img src="media/img-3.png" width="333" />
+  <img src="media/img-1.png" width="200" />
+  <img src="media/img-2.png" width="200" /> 
+  <img src="media/img-3.png" width="200" />
 </p>
 
 ## Implemented:
