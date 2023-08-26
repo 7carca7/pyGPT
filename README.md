@@ -1,11 +1,11 @@
 # pyGPT
 [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) UI to interact with openAI API
 
-<div style="display: flex; justify-content: space-between;">
-  <img src="media/img-1.png" style="width: 33.33%;" />
-  <img src="media/img-2.png" style="width: 33.33%;" />
-  <img src="media/img-3.png" style="width: 33.33%;" />
-</div>
+<p align="center">
+  <img src="media/img-1.png" width="333" />
+  <img src="media/img-2.png" width="333" /> 
+  <img src="media/img-3.png" width="333" />
+</p>
 
 ## Implemented:
 * **[ChatGPT](https://platform.openai.com/docs/models/gpt-4)**
