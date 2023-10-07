@@ -24,7 +24,8 @@ MyTabView = ctk.CTkTabview(app)
 
 # TABS SYSTEM
 MyTabView.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
-MyTabView.configure(fg_color="transparent", segmented_button_selected_color="#1E90FF",
+MyTabView.configure(fg_color="transparent",
+                    segmented_button_selected_color="#1E90FF",
                     segmented_button_selected_hover_color="#1A7AD9")
 
 # TABS
