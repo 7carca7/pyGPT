@@ -1,4 +1,4 @@
-"pyGPT is a graphical interface to interact with the Openai API"
+"""pyGPT is a graphical interface to interact with the Openai API"""
 
 from PIL import Image
 import customtkinter as ctk
