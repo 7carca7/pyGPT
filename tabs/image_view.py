@@ -1,6 +1,7 @@
 "Module that handles the structure of the Image tab"
 
 import urllib
+import urllib.request
 import io
 
 

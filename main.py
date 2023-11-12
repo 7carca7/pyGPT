@@ -2,7 +2,7 @@
 
 from PIL import Image
 import customtkinter as ctk
-from ia import OpenAI, Database
+from ia import Openai, Database
 from settings import Config
 from tabs.chat_view import ChatView
 from tabs.image_view import ImageView
@@ -10,7 +10,7 @@ from tabs.settings_view import SettingsView
 
 
 db = Database()
-ia = OpenAI()
+ia = Openai()
 conf = Config()
 
 # MAIN APP
