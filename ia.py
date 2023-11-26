@@ -3,7 +3,6 @@
 import shelve
 from tkinter.filedialog import asksaveasfilename
 import os
-# import openai
 from openai import OpenAI
 import requests
 
@@ -74,6 +73,7 @@ class Openai:
             self.db_contexto.append(
                 {"role": "assistant", "content": respuesta})
             return respuesta
+        return None
 
     def actualizar(self):
         "Synchronize and compare the values of the DB with those of the application instance"
