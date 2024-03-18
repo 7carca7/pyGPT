@@ -27,7 +27,7 @@ class SettingsView:
         entrada_key.grid(row=1, column=0, padx=(
             5, 5), pady=(0, 5), sticky="nsew")
         enlace_api = ctk.CTkLabel(
-            api, text="\u24D8 Get an API Key", text_color="#1E90FF", cursor="hand2")
+            api, text="\u24D8 Get an API Key", text_color="#1E90FF", cursor="pointinghand")
         enlace_api.grid(row=0, column=0, padx=5, sticky="e")
         enlace_api.bind(
             "<Button-1>",
@@ -48,7 +48,7 @@ class SettingsView:
                             pady=(0, 5), sticky="nsew")
         enlace_modelo = ctk.CTkLabel(
             gpt_modelo, text="\u24D8 Available models",
-            text_color="#1E90FF", cursor="hand2")
+            text_color="#1E90FF", cursor="pointinghand")
         enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
         enlace_modelo.bind(
             "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/docs/models/"))
@@ -70,7 +70,7 @@ class SettingsView:
             row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
         enlace_contexto = ctk.CTkLabel(
             contexto, text="\u24D8 About contexts",
-            text_color="#1E90FF", cursor="hand2")
+            text_color="#1E90FF", cursor="pointinghand")
         enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
         enlace_contexto.bind("<Button-1>", lambda e: conf.abrir_enlace(
             "https://platform.openai.com/docs/guides/chat/introduction"))
@@ -93,9 +93,9 @@ class SettingsView:
                                        command=conf.change_scaling_event)
         opcion_esc.grid(row=1, column=0, sticky="w")
 
-        button_aplicar = ctk.CTkButton(
+        boton_aplicar = ctk.CTkButton(
             frame_ajustes_inf, text="Apply", command=lambda:
             conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
-        button_aplicar.grid(row=1, column=1, sticky="ew")
-        button_aplicar.configure(
+        boton_aplicar.grid(row=1, column=1, sticky="ew")
+        boton_aplicar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
