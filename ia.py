@@ -94,9 +94,8 @@ class Openai:
     def create_image(self, user_entry):
         "Create an image from a user description"
         response = self.client.images.generate(
-            prompt=user_entry, n=1, size="1024x1024")
+            model="dall-e-3", prompt=user_entry, size="1024x1024", quality="standard", n=1)
         imagen_url = response.data[0].url
-        print(imagen_url)
         self.database.enter_data("url", imagen_url)
         return imagen_url
 
