@@ -57,7 +57,7 @@ class Openai:
         if api_key is not None:
             self.client = OpenAI(api_key=str(api_key))
         else:
-            raise ValueError("No API key found in database")
+            self.client = OpenAI(api_key="")
         self.db_modelo = self.database.obtener_data()[1]
         self.db_contexto = self.database.obtener_data()[2]
         self.url = self.database.obtener_data()[3]
@@ -87,6 +87,7 @@ class Openai:
         response = self.client.images.generate(
             prompt=user_entry, n=1, size="1024x1024")
         imagen_url = response.data[0].url
+        print(imagen_url)
         self.database.ingresar_data("url", imagen_url)
         return imagen_url
 
