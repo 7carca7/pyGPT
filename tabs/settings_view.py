@@ -23,7 +23,7 @@ class SettingsView:
             api, text="API Key", text_color="#A8A8A8", font=("", 17))
         ek_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
         entrada_key = ctk.CTkEntry(
-            api, placeholder_text_color="#A8A8A8", placeholder_text=database.obtener_data()[0])
+            api, placeholder_text_color="#A8A8A8", placeholder_text=database.get_data()[0])
         entrada_key.grid(row=1, column=0, padx=(
             5, 5), pady=(0, 5), sticky="nsew")
         enlace_api = ctk.CTkLabel(
@@ -43,7 +43,7 @@ class SettingsView:
         ev_label.grid(row=0, column=0, padx=(5, 0), pady=(0, 5), sticky="w")
         entrada_modelo = ctk.CTkEntry(
             gpt_modelo, placeholder_text_color="#A8A8A8",
-            placeholder_text=database.obtener_data()[1])
+            placeholder_text=database.get_data()[1])
         entrada_modelo.grid(row=1, column=0, padx=(5, 5),
                             pady=(0, 5), sticky="nsew")
         enlace_modelo = ctk.CTkLabel(
@@ -65,7 +65,7 @@ class SettingsView:
 
         entrada_contexto = ctk.CTkEntry(
             contexto, placeholder_text_color="#A8A8A8",
-            placeholder_text=database.obtener_data()[2][0]["content"])
+            placeholder_text=database.get_data()[2][0]["content"])
         entrada_contexto.grid(
             row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
         enlace_contexto = ctk.CTkLabel(
@@ -93,9 +93,9 @@ class SettingsView:
                                        command=conf.change_scaling_event)
         opcion_esc.grid(row=1, column=0, sticky="w")
 
-        boton_aplicar = ctk.CTkButton(
+        button_aplicar = ctk.CTkButton(
             frame_ajustes_inf, text="Apply", command=lambda:
             conf.aplicar(entrada_key.get(), entrada_modelo.get(), entrada_contexto.get()))
-        boton_aplicar.grid(row=1, column=1, sticky="ew")
-        boton_aplicar.configure(
+        button_aplicar.grid(row=1, column=1, sticky="ew")
+        button_aplicar.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")

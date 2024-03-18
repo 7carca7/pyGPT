@@ -6,18 +6,18 @@ class ChatView:
 
     def __init__(self, my_tab_view, ctk, ai_model):
 
-        def enviar():
+        def send():
             "Sends the user's question to the AI"
-            respuesta = ai_model.preguntar(entrada.get())
+            respuesta = ai_model.ask(entrada.get())
             salida.configure(state="normal")
             salida.delete(0.0, ctk.END)
             salida.insert("0.0", respuesta)
             salida.configure(state="disabled")
             entrada.delete("0", "end")
 
-        def reiniciar():
+        def restart():
             "Tells the AI to restart the conversation context"
-            ai_model.reiniciar()
+            ai_model.restart()
             salida.configure(state='normal')
             salida.delete(0.0, ctk.END)
             salida.configure(state='disabled')
@@ -57,20 +57,20 @@ class ChatView:
         entrada = ctk.CTkEntry(cuadro_inferior, placeholder_text_color="#A8A8A8",
                                placeholder_text="Enter a question...")
         entrada.grid(row=0, column=0, padx=(0, 9), sticky="we")
-        entrada.bind('<Return>', lambda event: enviar())
+        entrada.bind('<Return>', lambda event: send())
 
-        contenedor_botones = ctk.CTkFrame(
+        contenedor_buttones = ctk.CTkFrame(
             cuadro_inferior, fg_color="transparent")
-        contenedor_botones.grid(row=0, column=1, sticky="ew")
+        contenedor_buttones.grid(row=0, column=1, sticky="ew")
 
-        boton_enviar = ctk.CTkButton(
-            contenedor_botones, text="Send", command=enviar)
-        boton_enviar.grid(row=0, column=0, sticky="ew")
-        boton_enviar.configure(
+        button_send = ctk.CTkButton(
+            contenedor_buttones, text="Send", command=send)
+        button_send.grid(row=0, column=0, sticky="ew")
+        button_send.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
-        boton_reiniciar = ctk.CTkButton(
-            contenedor_botones, text="\u267A", font=("", 16), command=reiniciar)
-        boton_reiniciar.grid(row=0, column=1, padx=(10, 0), sticky="ew")
-        boton_reiniciar.configure(
+        button_restart = ctk.CTkButton(
+            contenedor_buttones, text="\u267A", font=("", 16), command=restart)
+        button_restart.grid(row=0, column=1, padx=(10, 0), sticky="ew")
+        button_restart.configure(
             width=35, fg_color="#F28A30", hover_color="#CE7529")

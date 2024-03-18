@@ -14,11 +14,11 @@ class Config:
     def aplicar(self, valor_key, valor_modelo, valor_contexto):
         "If there is new data in the Settings fields, it enters it in the DB"
         if valor_key != "":
-            self.database.ingresar_data("key", valor_key)
+            self.database.enter_data("key", valor_key)
         if valor_modelo != "":
-            self.database.ingresar_data("modelo", valor_modelo)
+            self.database.enter_data("modelo", valor_modelo)
         if valor_contexto != "":
-            self.database.ingresar_data(
+            self.database.enter_data(
                 "contexto", [{"role": "system", "content": valor_contexto}])
 
     def abrir_enlace(self, url):

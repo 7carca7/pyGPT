@@ -13,7 +13,7 @@ class ImageView:
         def crear():
             "Create an image from the user prompt"
 
-            imagen_url = ai_model.crear_imagen(entrada_imagen.get())
+            imagen_url = ai_model.create_image(entrada_imagen.get())
             with urllib.request.urlopen(imagen_url) as url_datos:
                 raw_data = url_datos.read()
             imagen_crear = image.open(io.BytesIO(raw_data))
@@ -52,18 +52,19 @@ class ImageView:
         entrada_imagen.grid(row=0, column=0, padx=(0, 9), sticky="we")
         entrada_imagen.bind('<Return>', lambda event: crear())
 
-        contenedor_botones_imagen = ctk.CTkFrame(
+        contenedor_buttones_imagen = ctk.CTkFrame(
             frame_entrada_imagen, fg_color="transparent")
-        contenedor_botones_imagen.grid(row=0, column=1, sticky="ew")
+        contenedor_buttones_imagen.grid(row=0, column=1, sticky="ew")
 
-        boton_entrada_imagen = ctk.CTkButton(
-            contenedor_botones_imagen, text="Create", command=crear)
-        boton_entrada_imagen.grid(row=0, column=0, sticky="ew")
-        boton_entrada_imagen.configure(
+        button_entrada_imagen = ctk.CTkButton(
+            contenedor_buttones_imagen, text="Create", command=crear)
+        button_entrada_imagen.grid(row=0, column=0, sticky="ew")
+        button_entrada_imagen.configure(
             width=60, fg_color="#1E90FF", hover_color="#1A7AD9")
 
-        boton_descargar_imagen = ctk.CTkButton(
-            contenedor_botones_imagen, text="\u2B07", command=ai_model.guardar)
-        boton_descargar_imagen.grid(row=0, column=1, padx=(10, 0), sticky="ew")
-        boton_descargar_imagen.configure(
+        button_descargar_imagen = ctk.CTkButton(
+            contenedor_buttones_imagen, text="\u2B07", command=ai_model.save)
+        button_descargar_imagen.grid(
+            row=0, column=1, padx=(10, 0), sticky="ew")
+        button_descargar_imagen.configure(
             width=35, fg_color="#009E54", hover_color="#008D47")
