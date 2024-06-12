@@ -27,7 +27,7 @@ class SettingsView:
         entrada_key.grid(row=1, column=0, padx=(
             5, 5), pady=(0, 5), sticky="nsew")
         enlace_api = ctk.CTkLabel(
-            api, text="\u24D8 Get an API Key", text_color="#1E90FF", cursor="pointinghand")
+            api, text="\u24D8 Get an API Key", text_color="#1E90FF", cursor="hand2")
         enlace_api.grid(row=0, column=0, padx=5, sticky="e")
         enlace_api.bind(
             "<Button-1>",
@@ -48,7 +48,7 @@ class SettingsView:
                             pady=(0, 5), sticky="nsew")
         enlace_modelo = ctk.CTkLabel(
             gpt_modelo, text="\u24D8 Available models",
-            text_color="#1E90FF", cursor="pointinghand")
+            text_color="#1E90FF", cursor="hand2")
         enlace_modelo.grid(row=0, column=0, padx=5, sticky="e")
         enlace_modelo.bind(
             "<Button-1>", lambda e: conf.abrir_enlace("https://platform.openai.com/docs/models/"))
@@ -70,7 +70,7 @@ class SettingsView:
             row=1, column=0, padx=(5, 5), pady=(0, 5), sticky="nsew")
         enlace_contexto = ctk.CTkLabel(
             contexto, text="\u24D8 About contexts",
-            text_color="#1E90FF", cursor="pointinghand")
+            text_color="#1E90FF", cursor="hand2")
         enlace_contexto.grid(row=0, column=0, padx=5, sticky="e")
         enlace_contexto.bind("<Button-1>", lambda e: conf.abrir_enlace(
             "https://platform.openai.com/docs/guides/chat/introduction"))
